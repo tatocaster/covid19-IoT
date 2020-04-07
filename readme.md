@@ -12,7 +12,7 @@ That's it, really.
 uses external API.
 
 ##### Photo
-![Before](assets/product.png)
+![Final photo](assets/product.jpg)
 
 ##### Future
 Maybe some charts and more detailed info.
