@@ -12,14 +12,14 @@ That's it, really.
 uses external API.  
 
 ##### Photo
-![Final photo](assets/product.jpg)
+![Final photo](/assets/product.jpg)
 
-##### Future
+#### Future
 - Maybe some charts and more detailed info.
 - Actually it can be easily built for phones also, needs some tweaks and new flavour.
 
 
-##### What it lacks
+#### What it lacks
 - Gradle files can be scripted in Kotlin.
 - There is still a lot of room for improvement and to improve overall code quality.
 - Shared package for common test classes and abstractions.
@@ -27,7 +27,7 @@ uses external API.
 - Gradle modules for features.
 - fix // TODOs in code, but I'm too lazy to finish it.
 
-##### How it's built
+#### How it's built
 Overcomplication at its best. uses Android Architecture Components, Dagger2, AssistedInject, retrofit
 
 
