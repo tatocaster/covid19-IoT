@@ -1,0 +1,177 @@
+plugins {
+    id 'io.gitlab.arturbosch.detekt' version '1.4.0'
+    id 'org.jlleitschuh.gradle.ktlint' version '9.1.1'
+    id 'com.github.spotbugs' version '2.0.0'
+    id 'com.novoda.static-analysis' version '1.2'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "me.tatocaster.covid_19geocount"
+        minSdkVersion 24
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "me.tatocaster.covid_19geocount.CustomRunner"
+        testOptions.unitTests.includeAndroidResources = true
+        vectorDrawables.useSupportLibrary = true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.pro'
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
+            pseudoLocalesEnabled true
+        }
+
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        sourceSets.debug.resources.srcDirs = ['src/debug/res']
+    }
+
+    lintOptions {
+        disable('AllowBackup', 'GoogleAppIndexingWarning', 'MissingApplicationIcon')
+    }
+}
+
+staticAnalysis {
+
+    penalty none
+
+    checkstyle {
+        toolVersion '8.8'
+        exclude project.fileTree('src/test/java')
+        configFile rootProject.file('team-props/checkstyle-modules.xml')
+        includeVariants { variant -> variant.name.contains('debug') }
+    }
+
+    pmd {
+        toolVersion '6.1.0'
+        exclude project.fileTree('src/test/java')
+        ruleSetFiles = rootProject.files('team-props/pmd-rules.xml')
+        ruleSets = []
+        // https://stackoverflow.com/questions/32247190/pmd-exclude-pattern-with-gradle
+        includeVariants { variant -> variant.name.contains('debug') }
+    }
+
+    findbugs {
+        toolVersion '3.0.1'
+        excludeFilter rootProject.file('team-props/findbugs-excludes.xml')
+        includeVariants { variant -> variant.name.contains('debug') }
+    }
+
+    /*spotbugs {
+        excludeFilter rootProject.file('team-props/findbugs-excludes.xml')
+        includeVariants { variant -> variant.name.contains('debug') }
+    }*/
+
+    lintOptions {
+        lintConfig rootProject.file('team-props/lint-config.xml')
+        checkReleaseBuilds false
+        warningsAsErrors true
+    }
+
+    detekt {
+        config = rootProject.files('team-props/detekt-config.yml')
+//        excludes = '.*test.*,.*/resources/.*,.*/tmp/.*'
+    }
+
+    ktlint {
+        android.set(true)
+        reporters {
+            reporter "checkstyle"
+            reporter "json"
+        }
+
+        includeVariants { variant -> variant.name.contains('debug') }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    def work_version = "2.3.4"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation "androidx.work:work-rxjava2:$work_version"
+
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    def retrofit_version = "2.7.2"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+
+    // https://github.com/square/okhttp/issues/5760
+    implementation 'org.conscrypt:conscrypt-android:2.2.1'
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    def dagger_version = "2.26"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    def assisted_inject = "0.5.2"
+    compileOnly "com.squareup.inject:assisted-inject-annotations-dagger2:$assisted_inject"
+    kapt "com.squareup.inject:assisted-inject-processor-dagger2:$assisted_inject"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation "androidx.test:runner:1.2.0"
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation "org.robolectric:robolectric:4.3.1"
+    testImplementation "androidx.work:work-testing:$work_version"
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'org.mockito:mockito-android:3.3.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+    compileOnly 'com.google.android.things:androidthings:1.0'
+}
