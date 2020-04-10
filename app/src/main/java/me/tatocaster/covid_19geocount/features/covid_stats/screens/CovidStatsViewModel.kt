@@ -43,7 +43,7 @@ class CovidStatsViewModel(
             .build()
 
         val jobRequest =
-            PeriodicWorkRequestBuilder<CovidStatsWorker>(15, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<CovidStatsWorker>(20, TimeUnit.MINUTES, 15, TimeUnit.MINUTES)
                 .addTag(UNIQUE_WORK_ID)
                 .setConstraints(constraints)
                 .build()

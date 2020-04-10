@@ -1,6 +1,7 @@
 package me.tatocaster.covid_19geocount.features.covid_stats.repositories
 
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import me.tatocaster.covid_19geocount.common.entities.CovidCase
@@ -21,44 +22,29 @@ class CovidStatsRepositoryImpl(
             .toFlowable()
             .map {
                 val item = mapToCaseFromRemote(it)
-                updateCache(item)
                 item
             }
+            .flatMap {
+                updateCache(it).subscribe()
+                Flowable.just(it)
+            }
+            .onErrorResumeNext(getLocal().toFlowable())
             .switchIfEmpty {
                 getLocal().toFlowable()
             }
-            .onErrorResumeNext(getLocal().toFlowable())
             .singleOrError()
-        /*return remoteDataSource
-            .getStatsForCountries()
-            .toFlowable()
-            .map {
-                val item = mapToCaseFromRemote(it)
-                updateCache(item)
-                item
-            }
-            .publish {
-                it.mergeWith(
-                    getLocal().toFlowable().takeUntil(it)
-                ).onErrorResumeNext(it)
-            }
-            .onErrorResumeNext(getLocal().toFlowable())
-            .singleOrError()*/
     }
 
     override fun updateCache(covidCase: CovidCase): Completable =
         localDataSource.update(mapToEntity(covidCase))
-            .doOnComplete {
-                Timber.d("local updated")
-            }
-            .doOnError {
-                Timber.e(it, "local updated")
-            }
 
     private fun getLocal(): Maybe<CovidCase> {
         return localDataSource
             .getStats()
-            .map { item -> mapToCaseFromDb(item) }
+            .map { item ->
+                Timber.d("item %s", item)
+                mapToCaseFromDb(item)
+            }
     }
 
 

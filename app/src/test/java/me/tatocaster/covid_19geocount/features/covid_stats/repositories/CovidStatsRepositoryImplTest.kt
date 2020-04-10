@@ -8,6 +8,7 @@ import me.tatocaster.covid_19geocount.common.BaseUnitTest
 import me.tatocaster.covid_19geocount.common.entities.CovidCase
 import me.tatocaster.covid_19geocount.features.covid_stats.data_sources.CovidStatsDataSource
 import me.tatocaster.covid_19geocount.source.local.covidstats.CovidStatDbEntity
+import me.tatocaster.covid_19geocount.source.remote.schema.CovidCaseCountryResponse
 import me.tatocaster.covid_19geocount.utils.assertCompleteAndDispose
 import me.tatocaster.covid_19geocount.utils.assertNotCompleteAndDispose
 import org.junit.Test
@@ -129,6 +130,24 @@ class CovidStatsRepositoryImplTest : BaseUnitTest() {
             .map { it.country }
             .test()
             .assertValue("GEO")
+            .assertCompleteAndDispose()
+    }
+
+    @Test
+    fun getStats_SuccessNetworkAndCheckCacheIfUpdated_Success() {
+        repository = CovidStatsRepositoryImpl(remoteDataSource, localDataSource)
+
+        repository.getStats()
+            .map { it.country }
+            .test()
+            .assertValue("GEO")
+            .assertCompleteAndDispose()
+
+        localDataSource
+            .getStats()
+            .map { it.totalConfirmed }
+            .test()
+            .assertValue(190)
             .assertCompleteAndDispose()
     }
 
