@@ -31,6 +31,12 @@ class CustomProgressBar : FrameLayout {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        performClick()
+        return true
+    }
+
+    override fun performClick(): Boolean {
+        super.performClick()
         return true
     }
 

@@ -12,7 +12,7 @@ abstract class BaseActivity : AppCompatActivity() {
     @UiThread
     protected fun getPresentationComponent(): PresentationComponent {
         if (isInjectorUsed) {
-            throw RuntimeException("there is no need to use injector more than once")
+            throw IllegalStateException("there is no need to use injector more than once")
         }
         isInjectorUsed = true
         return getApplicationComponent()

@@ -22,7 +22,10 @@ object ViewModelModule {
     annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
     @Provides
-    fun viewModelFactory(providerMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): CovidStatsViewModelFactory {
+    fun viewModelFactory(
+        providerMap: Map<Class<out ViewModel>,
+                @JvmSuppressWildcards Provider<ViewModel>>
+    ): CovidStatsViewModelFactory {
         return CovidStatsViewModelFactory(providerMap)
     }
 

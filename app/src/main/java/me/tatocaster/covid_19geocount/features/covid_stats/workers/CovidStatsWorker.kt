@@ -17,21 +17,16 @@ class CovidStatsWorker @AssistedInject constructor(
 ) :
     Worker(appContext, params) {
     override fun doWork(): Result {
-        return try {
 //            getStatsWithoutCache from network
 
 //            interactor.save(covidCase).blockingAwait()
 
-            // do some work synchronously
+        // do some work synchronously
 
 
-            // mostly this is for timer purposes
+        // mostly this is for timer purposes
 
-            Result.success()
-        } catch (e: RuntimeException) {
-            Timber.e(e)
-            Result.failure()
-        }
+        return Result.success()
     }
 
     @AssistedInject.Factory

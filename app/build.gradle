@@ -1,7 +1,6 @@
 plugins {
     id 'io.gitlab.arturbosch.detekt' version '1.4.0'
     id 'org.jlleitschuh.gradle.ktlint' version '9.1.1'
-    id 'com.github.spotbugs' version '2.0.0'
     id 'com.novoda.static-analysis' version '1.2'
 }
 
@@ -64,33 +63,6 @@ staticAnalysis {
 
     penalty none
 
-    checkstyle {
-        toolVersion '8.8'
-        exclude project.fileTree('src/test/java')
-        configFile rootProject.file('team-props/checkstyle-modules.xml')
-        includeVariants { variant -> variant.name.contains('debug') }
-    }
-
-    pmd {
-        toolVersion '6.1.0'
-        exclude project.fileTree('src/test/java')
-        ruleSetFiles = rootProject.files('team-props/pmd-rules.xml')
-        ruleSets = []
-        // https://stackoverflow.com/questions/32247190/pmd-exclude-pattern-with-gradle
-        includeVariants { variant -> variant.name.contains('debug') }
-    }
-
-    findbugs {
-        toolVersion '3.0.1'
-        excludeFilter rootProject.file('team-props/findbugs-excludes.xml')
-        includeVariants { variant -> variant.name.contains('debug') }
-    }
-
-    /*spotbugs {
-        excludeFilter rootProject.file('team-props/findbugs-excludes.xml')
-        includeVariants { variant -> variant.name.contains('debug') }
-    }*/
-
     lintOptions {
         lintConfig rootProject.file('team-props/lint-config.xml')
         checkReleaseBuilds false
@@ -99,7 +71,6 @@ staticAnalysis {
 
     detekt {
         config = rootProject.files('team-props/detekt-config.yml')
-//        excludes = '.*test.*,.*/resources/.*,.*/tmp/.*'
     }
 
     ktlint {
