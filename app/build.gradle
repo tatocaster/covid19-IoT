@@ -21,18 +21,17 @@ android {
 
     defaultConfig {
         applicationId "me.tatocaster.covid_19geocount"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "me.tatocaster.covid_19geocount.CustomRunner"
-        testOptions.unitTests.includeAndroidResources = true
         vectorDrawables.useSupportLibrary = true
 
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.incremental", true)
             }
         }
     }
@@ -85,18 +84,18 @@ staticAnalysis {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":core")
+    implementation project(":covidstats")
+
+    androidTestImplementation project(":core-android-testing")
+    testImplementation project(":core-testing")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     rootProject.app.each { item ->
         add(item.configuration, item.dependency, item.options)
     }
-    rootProject.unitTestsDependencies.each { item ->
-        add(item.configuration, item.dependency, item.options)
-    }
-    rootProject.instrumentationTestsDependencies.each { item ->
-        add(item.configuration, item.dependency, item.options)
-    }
+
     rootProject.kaptDependencies.each { item ->
         add(item.configuration, item.dependency, item.options)
     }

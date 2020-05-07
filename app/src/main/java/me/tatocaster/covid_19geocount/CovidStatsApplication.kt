@@ -6,25 +6,27 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Configuration
 import androidx.work.WorkManager
-import me.tatocaster.covid_19geocount.common.di.application.ApplicationComponent
-import me.tatocaster.covid_19geocount.common.di.application.ApplicationModule
-import me.tatocaster.covid_19geocount.common.di.application.DaggerApplicationComponent
+import me.tatocaster.core.ApplicationConfig
+import me.tatocaster.covid_19geocount.BuildConfig
+import me.tatocaster.core.di.application.CoreComponentProvider
 import timber.log.Timber
 
-open class CovidStatsApplication : Application() {
+open class CovidStatsApplication : Application(), CoreComponentProvider {
+    override val coreComponent: AppComponentImpl by lazy {
+        DaggerAppComponentImpl.factory().create(applicationContext)
+    }
 
     override fun onCreate() {
         super.onCreate()
-        applicationComponent = createAppComponent()
 
         context = applicationContext
 
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
-                override fun createStackElementTag(element: StackTraceElement) = TAG
+                override fun createStackElementTag(element: StackTraceElement) =
+                    TAG
             })
         }
-
         config = ApplicationConfig()
 
         initWorkManager()
@@ -35,24 +37,17 @@ open class CovidStatsApplication : Application() {
         WorkManager.initialize(
             this,
             Configuration.Builder()
-                .setMinimumLoggingLevel(Log.INFO)
-                .setWorkerFactory(applicationComponent.factory())
+                .setMinimumLoggingLevel(Log.DEBUG)
+                .setWorkerFactory(coreComponent.workerFactory)
                 .build()
         )
     }
-
-    private fun createAppComponent(): ApplicationComponent =
-        DaggerApplicationComponent
-            .builder()
-            .applicationModule(ApplicationModule(this))
-            .build()
-
 
     companion object {
         @SuppressLint("StaticFieldLeak")
         //this is app context and setting is performed only in onCreate, it's not supposed to leak
         lateinit var context: Context
-        lateinit var applicationComponent: ApplicationComponent
+
         lateinit var config: ApplicationConfig
 
         const val TAG = "covid-app"

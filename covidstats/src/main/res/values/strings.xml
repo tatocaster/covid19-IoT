@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_cases_label">სულ დაფიქსირებული:</string>
+    <string name="total_recovered_label">სულ გამოჯანმრთელდა:</string>
+    <string name="total_death_label">სულ გარდაცვლილი:</string>
+    <string name="covid_cases_georgia">COVID-19 საქართველოში</string>
+</resources>

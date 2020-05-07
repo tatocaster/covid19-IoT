@@ -10,9 +10,12 @@
         android:name=".CovidStatsApplication"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <uses-library android:name="com.google.android.things" />
+        <uses-library
+            android:name="com.google.android.things"
+            android:required="false" /> <!--This allows to be run on phones as well but
+            Android Things specific system calls will fail-->
 
-        <activity android:name=".common.activities.MainActivity">
+        <activity android:name="me.tatocaster.covid_19geocount.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

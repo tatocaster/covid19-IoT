@@ -1,2 +1,6 @@
 rootProject.name='COVID-19 GEO count'
 include ':app'
+include ':core'
+include ':covidstats'
+include ':core-android-testing'
+include ':core-testing'

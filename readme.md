@@ -21,11 +21,9 @@ uses external API.
 
 #### What it lacks
 - Gradle files can be scripted in Kotlin.
-- There is still a lot of room for improvement and to improve overall code quality.
-- Shared package for common test classes and abstractions.
-- Instrumental tests for Work Manager.
-- Gradle modules for features.
-- fix // TODOs in code, but I'm too lazy to finish it.
+- There is still a lot of room (pun intended) for improvement and to improve overall code quality.
+- Navigation component for multi-module navigation, possibly in the future?
+- Flavor for mobile-only build? 
 
 #### How it's built
 Overcomplication at its best. uses Android Architecture Components, Dagger2, AssistedInject, retrofit

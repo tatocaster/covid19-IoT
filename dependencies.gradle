@@ -4,7 +4,7 @@ ext {
     //
 
     //kapt dependencies
-    daggerVersion = '2.26'
+    daggerVersion = '2.27'
     assistedInjectVersion = '0.5.2'
     roomVersion = "2.2.5"
 
@@ -26,7 +26,7 @@ ext {
     coreVersion = '1.2.0'
     runnerVersion = '1.2.0'
     mockitoVersion = '3.3.3'
-    robolectricVersion = '4.3.1'
+    robolectricVersion = '4.2.1'
 
     //Functional/end-to-end testing dependencies
     extJUnitversion = '1.1.1'
@@ -110,50 +110,74 @@ ext {
             [configuration: "implementation", dependency: lifecycleJavaSupport],
             [configuration: "implementation", dependency: workRuntime],
             [configuration: "implementation", dependency: workRxJava],
-            [configuration: "implementation", dependency: roomRuntime],
-            [configuration: "implementation", dependency: roomRxJava],
-            [configuration: "implementation", dependency: retrofit],
-            [configuration: "implementation", dependency: retrofitGson],
-            [configuration: "implementation", dependency: retrofitScalars],
-            [configuration: "implementation", dependency: retrofitRxJava],
-            [configuration: "implementation", dependency: okHttpLoggingInterceptor],
-            [configuration: "implementation", dependency: conscrypt],
+            [configuration: "implementation", dependency: rxJava],
+            [configuration: "implementation", dependency: rxAndroid],
+            [configuration: "implementation", dependency: timber],
+            [configuration: "implementation", dependency: dagger],
+            [configuration: "compileOnly", dependency: androidThings],
+            [configuration: "compileOnly", dependency: assistedInject],
+    ]
+
+
+    core = [
+            [configuration: "api", dependency: appCompat],
+            [configuration: "api", dependency: constraintLayout],
+            [configuration: "api", dependency: lifecycleExtensions],
+            [configuration: "api", dependency: lifecycleJavaSupport],
+            [configuration: "api", dependency: workRuntime],
+            [configuration: "api", dependency: workRxJava],
+            [configuration: "api", dependency: roomRuntime],
+            [configuration: "api", dependency: roomRxJava],
+            [configuration: "api", dependency: retrofit],
+            [configuration: "api", dependency: retrofitGson],
+            [configuration: "api", dependency: retrofitScalars],
+            [configuration: "api", dependency: retrofitRxJava],
+            [configuration: "api", dependency: okHttpLoggingInterceptor],
+            [configuration: "api", dependency: conscrypt],
+            [configuration: "api", dependency: rxJava],
+            [configuration: "api", dependency: rxAndroid],
+            [configuration: "api", dependency: timber],
+            [configuration: "api", dependency: dagger],
+            [configuration: "compileOnly", dependency: assistedInject],
+    ]
+
+    covidStats = [
+            [configuration: "implementation", dependency: appCompat],
+            [configuration: "implementation", dependency: constraintLayout],
+            [configuration: "implementation", dependency: lifecycleExtensions],
+            [configuration: "implementation", dependency: lifecycleJavaSupport],
+            [configuration: "implementation", dependency: workRuntime],
+            [configuration: "implementation", dependency: workRxJava],
             [configuration: "implementation", dependency: rxJava],
             [configuration: "implementation", dependency: rxAndroid],
             [configuration: "implementation", dependency: timber],
             [configuration: "implementation", dependency: dagger],
             [configuration: "compileOnly", dependency: assistedInject],
-            [configuration: "compileOnly", dependency: androidThings],
-    ]
-
-    covidStats = [
-
-    ]
-
-    //Imported in all modules
-    unitTestsDependencies = [
-            [configuration: "testImplementation", dependency: junit],
-            [configuration: "testImplementation", dependency: coreTest],
-            [configuration: "testImplementation", dependency: runnerTest],
-            [configuration: "testImplementation", dependency: mockito],
-            [configuration: "testImplementation", dependency: robolectric],
-            [configuration: "testImplementation", dependency: workTest],
             [configuration: "kaptTest", dependency: daggerCompiler],
-    ]
-
-    //Importend in app module only
-    instrumentationTestsDependencies = [
-            [configuration: "androidTestImplementation", dependency: extJUnit],
-            [configuration: "androidTestImplementation", dependency: espressoCore],
-            [configuration: "androidTestImplementation", dependency: espressoContrib],
-            [configuration: "androidTestImplementation", dependency: espressoIntents],
-            [configuration: "androidTestImplementation", dependency: testRunner],
-            [configuration: "androidTestImplementation", dependency: testRules],
-            [configuration: "androidTestImplementation", dependency: workAndroidTest],
             [configuration: "kaptAndroidTest", dependency: daggerCompiler],
     ]
 
-    //Imported in all modules
+    unitTestsDependencies = [
+            [configuration: "api", dependency: junit],
+            [configuration: "api", dependency: coreTest],
+            [configuration: "api", dependency: runnerTest],
+            [configuration: "api", dependency: mockito],
+            [configuration: "api", dependency: robolectric],
+            [configuration: "api", dependency: workTest],
+            [configuration: "kapt", dependency: daggerCompiler],
+    ]
+
+    instrumentationTestsDependencies = [
+            [configuration: "api", dependency: extJUnit],
+            [configuration: "api", dependency: espressoCore],
+            [configuration: "api", dependency: espressoContrib],
+            [configuration: "api", dependency: espressoIntents],
+            [configuration: "api", dependency: testRunner],
+            [configuration: "api", dependency: testRules],
+            [configuration: "api", dependency: workAndroidTest],
+            [configuration: "kapt", dependency: daggerCompiler],
+    ]
+
     kaptDependencies = [
             [configuration: "kapt", dependency: daggerCompiler],
             [configuration: "kapt", dependency: assistedInjectCompiler],

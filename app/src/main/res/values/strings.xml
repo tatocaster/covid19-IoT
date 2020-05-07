@@ -2,9 +2,5 @@
     <string name="app_name">COVID-19 საქართველოს სტატისტიკა</string>
 
     <string name="server_error">დაფიქსირდა შეცდომა სერვერის მხარეს</string>
-    <string name="total_cases_label">სულ დაფიქსირებული:</string>
-    <string name="total_recovered_label">სულ გამოჯანმრთელდა:</string>
-    <string name="total_death_label">სულ გარდაცვლილი:</string>
-    <string name="covid_cases_georgia">COVID-19 საქართველოში</string>
     <string name="loading">მონაცემები იტვირთება</string>
 </resources>

@@ -320,4 +320,4 @@ style:
     active: false
   WildcardImport:
     active: true
-    excludeImports: 'java.util.*,kotlinx.android.synthetic.*,androidx.work.*,me.tatocaster.covid_19geocount.base.*'
+    excludeImports: 'java.util.*,kotlinx.android.synthetic.*,androidx.work.*,me.tatocaster.core.base.*'
