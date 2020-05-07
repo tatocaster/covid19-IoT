@@ -1,9 +1,3 @@
-plugins {
-    id 'io.gitlab.arturbosch.detekt' version '1.4.0'
-    id 'org.jlleitschuh.gradle.ktlint' version '9.1.1'
-    id 'com.novoda.static-analysis' version '1.2'
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -58,30 +52,7 @@ android {
     }
 }
 
-staticAnalysis {
 
-    penalty none
-
-    lintOptions {
-        lintConfig rootProject.file('team-props/lint-config.xml')
-        checkReleaseBuilds false
-        warningsAsErrors true
-    }
-
-    detekt {
-        config = rootProject.files('team-props/detekt-config.yml')
-    }
-
-    ktlint {
-        android.set(true)
-        reporters {
-            reporter "checkstyle"
-            reporter "json"
-        }
-
-        includeVariants { variant -> variant.name.contains('debug') }
-    }
-}
 
 dependencies {
     implementation project(":core")
@@ -101,3 +72,4 @@ dependencies {
     }
 
 }
+apply from: rootProject.file('team-props/static-analysis.gradle')

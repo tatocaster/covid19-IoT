@@ -47,3 +47,4 @@ dependencies {
         add(item.configuration, item.dependency, item.options)
     }
 }
+apply from: rootProject.file('team-props/static-analysis.gradle')
