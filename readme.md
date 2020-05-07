@@ -1,6 +1,6 @@
 # COVID-19 stats for Georgia on Android Things
-
-
+__Runs on mobile as well__
+  
 Weekend project which uses NXP Pico i.MX7 board  
 
 ### Intent
@@ -26,7 +26,7 @@ uses external API.
 - Flavor for mobile-only build? 
 
 #### How it's built
-Overcomplication at its best. uses Android Architecture Components, Dagger2, AssistedInject, retrofit
+Overcomplication at its best. uses Android Architecture Components, Dagger2, AssistedInject, Retrofit and hey! it's modular
 
 
 ##### Static code analysis
