@@ -5,9 +5,9 @@ for dir in */; do
 		echo "report directory found"
 		cd build/reports/
 
-		cp detekt/detekt.html ../../../final_lint_reports/
-		cp ktlint/ktlintMainSourceSetCheck.xml ../../../final_lint_reports/
-		cp lint-results.html ../../../final_lint_reports/
+		cp detekt/detekt.html ../../../final_lint_reports/detekt-${dir%?}.html
+		cp ktlint/ktlintMainSourceSetCheck.xml ../../../final_lint_reports/ktlin-${dir%?}.xml
+		cp lint-results.html ../../../final_lint_reports/linter-${dir%?}.html
 		cd ../../
 	fi
 	cd ..
