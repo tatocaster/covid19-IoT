@@ -31,9 +31,11 @@ allprojects {
 ext {
     signingConfigs = {
         release {
-            def keystorePropertiesFile = rootProject.file("keystore.properties")
             def keystoreProperties = new Properties()
-            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            if (System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL") == null) {
+                def keystorePropertiesFile = rootProject.file("keystore.properties")
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
 
             storeFile file(System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL") ?: keystoreProperties["Covid.signing"])
             storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD") ?: keystoreProperties["Covid.storePassword"]
