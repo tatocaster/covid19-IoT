@@ -31,8 +31,6 @@ class CovidStatsFlowTest : BaseInstrumentedTest() {
 
     @Test
     fun testAreNumbersLoaded() {
-//        val stats = interactor.getStatsForGeorgia().blockingGet()
-//        assertThat(stats.country, `is`("GEO"))
         onView(withId(R.id.bRefreshStats)).perform(click())
         onView(withId(R.id.tvTotalDeathCount))
             .check(matches(not(withText(""))))
