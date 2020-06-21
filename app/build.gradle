@@ -30,6 +30,8 @@ android {
         }
     }
 
+    signingConfigs rootProject.ext.signingConfigs
+
     buildTypes {
         debug {
             minifyEnabled true
@@ -43,6 +45,7 @@ android {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
     }

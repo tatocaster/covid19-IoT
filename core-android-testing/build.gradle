@@ -14,9 +14,12 @@ android {
         testInstrumentationRunner "me.tatocaster.core_android_testing.CustomRunner"
     }
 
+    signingConfigs rootProject.ext.signingConfigs
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.release
         }
     }
 

@@ -14,9 +14,12 @@ android {
         testOptions.unitTests.includeAndroidResources = true
     }
 
+    signingConfigs rootProject.ext.signingConfigs
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            signingConfig signingConfigs.release
         }
     }
 
